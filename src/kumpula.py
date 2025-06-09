@@ -1,5 +1,6 @@
-# kumpula.py - Learning Pandas by modifying a Finnish weather dataframe to
-# normalize the dates and to display dataframe info.
+# kumpula.py - 06/09/2025. Practicing concepts from Part I, Section 3.
+# Imports Kumpula's weather data from a CSV file, normalizes the dates,
+# saves that data to another CSV file, and shows stats about the data.
 
 import pandas as pd
 
