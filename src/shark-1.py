@@ -12,6 +12,7 @@ if __name__ == "__main__":
     data = pd.read_csv(
         filepath_or_buffer=in_file,
         na_values=[-9999],
+        parse_dates=["DATE"], # This can be used to convert UNIX timestamps too!
         sep=r"\s+", # The delimiter is multiple spaces.
         skiprows=[1],
         usecols=[
@@ -38,7 +39,7 @@ if __name__ == "__main__":
     data["DATE_STR"] = data["DATE"].astype(str)
     data["YEAR_MONTH"] = data["DATE_STR"].str.slice(
         start=0, # Inclusive start.
-        stop=6   # Exclusive end.
+        stop=7   # Exclusive end.
     )
 
     month_groups = data.groupby(by="YEAR_MONTH")
@@ -47,7 +48,7 @@ if __name__ == "__main__":
     print(f"{month_groups.nunique()}\n")
 
     print("2005/12 RECORDS:")
-    print(f"{month_groups.get_group("200512")}\n")
+    print(f"{month_groups.get_group("2005-12")}\n")
 
     # Get each group, find the mean values of the given columns, then 
     # create a dataframe displaying these values.
@@ -58,3 +59,12 @@ if __name__ == "__main__":
     
     print("MEAN TMAX_F FOR EACH GROUP:")
     print(f"{monthly_data}\n")
+
+    # Trying out some of the TimeStamp object attributes.
+    data["YEAR"] = data["DATE"].dt.year
+    data["MONTH"] = data["DATE"].dt.month
+    data["DAY"] = data["DATE"].dt.day
+    data = data.set_index("DATE")
+
+    print("DATAFRAME WITH YEAR, MONTH, AND DAY FIELDS AND DATE INDEX:")
+    print(data)
